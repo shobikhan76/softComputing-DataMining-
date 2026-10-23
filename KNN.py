@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
-
 # Step 1: Load the Iris dataset
 iris = load_iris()
 x = iris.data
@@ -17,7 +16,7 @@ print("Total measurements:", x.shape[1])
 print("Measurement names:", iris.feature_names)
 print("Flower species:", iris.target_names)
 
-print("\\\\nFirst flower measurement:", x[0])
+print("\\nFirst flower measurement:", x[0])
 print("First flower species:", iris.target_names[y[0]])
 
 
@@ -25,12 +24,12 @@ print("First flower species:", iris.target_names[y[0]])
 x_train, x_test, y_train, y_test = train_test_split(
     x,
     y,
-    test_size=0.2,
+    test_size=0.3,
     random_state=42,
     stratify=y
 )
 
-print("\\\\nSTEP 2: Dataset Split")
+print("\\nSTEP 2: Dataset Split")
 print("Training flowers:", len(x_train))
 print("Testing flowers:", len(x_test))
 print("Training labels:", len(y_train))
@@ -52,7 +51,7 @@ flower2 = x_train[1]
 
 distance = flower_distance(flower1, flower2)
 
-print("\\\\nSTEP 3: Distance Calculation")
+print("\\nSTEP 3: Distance Calculation")
 print("Flower 1:", flower1)
 print("Flower 2:", flower2)
 print("Distance:", distance)
@@ -76,7 +75,7 @@ def find_neighbors(test_flower, x_train, k):
 # Test Step 4
 neighbors = find_neighbors(x_test[0], x_train, 3)
 
-print("\\\\nSTEP 4: Nearest Neighbors")
+print("\\nSTEP 4: Nearest Neighbors")
 for distance, index in neighbors:
     print("Distance:", round(distance, 3))
     print("Species:", iris.target_names[y_train[index]])
@@ -105,7 +104,7 @@ def predict_species(test_flower, x_train, y_train, k):
 # Test Step 5 with one flower
 prediction = predict_species(x_test[0], x_train, y_train, k=3)
 
-print("\\\\nSTEP 5: Flower Prediction")
+print("\\nSTEP 5: Flower Prediction")
 print("Predicted species:", iris.target_names[prediction])
 print("Actual species:", iris.target_names[y_test[0]])
 
@@ -119,7 +118,7 @@ for test_flower in x_test:
 
 y_pred = np.array(y_pred)
 
-print("\\\\nSTEP 6: Classification Report")
+print("\\nSTEP 6: Classification Report")
 print(classification_report(
     y_test,
     y_pred,
@@ -130,10 +129,9 @@ print(classification_report(
 # Step 7: Create a 2D scatter plot
 # X-axis: Sepal length
 # Y-axis: Petal length
-# Use y_test for actual species colors, or y_pred for predicted species colors.
-# Set this to True to color dots by actual species.
+# Use actual species for the same class distribution as the reference image.
+# Change to y_pred if you want colors to show the model's predictions.
 plot_actual_species = True
-
 labels_to_plot = y_test if plot_actual_species else y_pred
 
 plt.figure(figsize=(8, 6))
@@ -180,7 +178,7 @@ plt.show()
 
 
 # Step 9: Show any flowers that were misclassified
-print("\\\\nSTEP 9: Misclassified Flowers")
+print("\\nSTEP 9: Misclassified Flowers")
 for i in range(len(y_test)):
     if y_test[i] != y_pred[i]:
         print(
@@ -199,6 +197,7 @@ for i in range(len(y_test)):
 # It is sensitive to irrelevant features and the choice of K.
 # It can also perform poorly when classes are imbalanced.
 
+
 # Question 2: How do we choose the value of K?
 # Answer:
 # We can test different K values and compare their accuracy
@@ -207,6 +206,7 @@ for i in range(len(y_test)):
 # A large K may include too many distant neighbors.
 # A common starting point is the square root of the number
 # of training samples, but validation is more reliable.
+
 
 # Question 3: What other distance measures can be used?
 # Answer:
